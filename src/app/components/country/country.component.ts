@@ -10,51 +10,51 @@ import { DateWiseCoronaConfirmedData } from '../model/datewisecorona-cases';
 })
 export class CountryComponent implements OnInit {
 
-  countries:string[] = ["India","Srilanka","Pak","Sa","Singapore"]
-  totalCoronaCasesInfo:TotalCoronaCasesInfo={
-    totalConfirmed:3,
+  countries: string[] = ['India', 'Srilanka', 'Pak', 'Sa', 'Singapore'];
+  totalCoronaCasesInfo: TotalCoronaCasesInfo = {
+    totalConfirmed: 3,
     totalRecovered: 4,
-    totalDeaths:5,
-    totalActive:6
-  }
+    totalDeaths: 5,
+    totalActive: 6
+  };
 
-  coronaCountryWistData:any = {
-    "India":{
-      totalConfirmed:10,
+  coronaCountryWistData: any = {
+    India: {
+      totalConfirmed: 10,
       totalRecovered: 10,
-      totalDeaths:10,
-      totalActive:10
+      totalDeaths: 10,
+      totalActive: 10
     },
-    "Srilanka":{
-      totalConfirmed:20,
+    Srilanka: {
+      totalConfirmed: 20,
       totalRecovered: 20,
-      totalDeaths:20,
-      totalActive:20
+      totalDeaths: 20,
+      totalActive: 20
     },
-    "Pak":{
-      totalConfirmed:30,
+    Pak: {
+      totalConfirmed: 30,
       totalRecovered: 30,
-      totalDeaths:30,
-      totalActive:30
+      totalDeaths: 30,
+      totalActive: 30
     },
-    "Sa":{
-      totalConfirmed:40,
+    Sa: {
+      totalConfirmed: 40,
       totalRecovered: 40,
-      totalDeaths:40,
-      totalActive:40
+      totalDeaths: 40,
+      totalActive: 40
     },
-    "Singapore":{
-      totalConfirmed:50,
+    Singapore: {
+      totalConfirmed: 50,
       totalRecovered: 50,
-      totalDeaths:50,
-      totalActive:50
+      totalDeaths: 50,
+      totalActive: 50
     }
-  }
+  };
 
   dateWiseCoronaData;
-  selectedCountryWiseCoronaDataList:DateWiseCoronaConfirmedData[] ;
+  selectedCountryWiseCoronaDataList: DateWiseCoronaConfirmedData[] ;
 
-  constructor(private globalCoronaServiceService:GlobalCoronaServiceService ) { }
+  constructor(private globalCoronaServiceService: GlobalCoronaServiceService ) { }
 
   ngOnInit(): void {
     // this.globalCoronaServiceService.getGlobalCoronaData().subscribe({
@@ -69,10 +69,10 @@ export class CountryComponent implements OnInit {
     );
   }
 
-  updateValues(selectedCountry:string):void{
+  updateValues(selectedCountry: string): void{
    this.totalCoronaCasesInfo =  this.coronaCountryWistData[selectedCountry];
    this.selectedCountryWiseCoronaDataList =  this.dateWiseCoronaData[selectedCountry];
    this.selectedCountryWiseCoronaDataList =  this.selectedCountryWiseCoronaDataList.reverse();
-   console.log(this.selectedCountryWiseCoronaDataList)
+   console.log(this.selectedCountryWiseCoronaDataList);
   }
 }
