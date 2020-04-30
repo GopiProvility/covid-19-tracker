@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
+import {map} from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,14 @@ export class GlobalCoronaServiceService {
   }
 
   getGlobalCoronaData() {
-    return this.http.get(this.globalCoronaDataUrl, {responseType: 'text'});
+    return this.http.get(this.globalCoronaDataUrl, {responseType: 'text'}).pipe(
+      map(result => {
+        let rows = result.split('\n');
+        rows.forEach(row => {
+          let cols = row.split('/,(?=\S)/');
+          console.log(cols);
+        });
+      }));
   }
 }
 

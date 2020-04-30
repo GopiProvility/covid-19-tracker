@@ -7,13 +7,15 @@ import { AppComponent } from './app.component';
 import { NavBarComponent } from './components/nav-bar/nav-bar.component';
 import { HomeComponent } from './components/home/home.component';
 import { CountryComponent } from './components/country/country.component';
+import { DashboardCardComponent } from './components/dashboard-card/dashboard-card.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavBarComponent,
     HomeComponent,
-    CountryComponent
+    CountryComponent,
+    DashboardCardComponent
   ],
   imports: [
     BrowserModule,

@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {GlobalCoronaServiceService} from '../../service/global-corona-service.service';
+import { TotalCoronaCasesInfo } from '../model/totalcorona-casses';
 
 @Component({
   selector: 'app-home',
@@ -8,6 +9,12 @@ import {GlobalCoronaServiceService} from '../../service/global-corona-service.se
 })
 export class HomeComponent implements OnInit {
 
+  totalCoronaCasesInfo:TotalCoronaCasesInfo={
+    totalConfirmed:30,
+    totalRecovered: 40,
+    totalDeaths:50,
+    totalActive:60
+  }
   constructor(private  globalCoronaServiceService: GlobalCoronaServiceService) {
   }
 
