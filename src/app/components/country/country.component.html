@@ -16,23 +16,38 @@
 
 <app-dashboard-card [totalCoronaCasesInfo]='totalCoronaCasesInfo'> </app-dashboard-card>
 
-<div class="card">
-   <table class="table">
-     <thead>
-       <tr>
-         <th>Sno.</th>
-         <th>Date</th>
-         <th>Cases</th>
-       </tr>
-     </thead>
+<div class="row">
 
-     <tbody>
-       <tr *ngFor="let countryWiseCoronaData of selectedCountryWiseCoronaDataList; index as i">
-         <td>{{i +1}}</td>
-         <td>{{countryWiseCoronaData.date | date}}</td>
-         <td>{{countryWiseCoronaData.case}}</td>
-       </tr>
-     </tbody>
-   </table>
+
+  <div class="col">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Sno.</th>
+          <th>Date</th>
+          <th>Cases</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let countryWiseCoronaData of selectedCountryWiseCoronaDataList; index as i">
+          <td>{{i +1}}</td>
+          <td>{{countryWiseCoronaData.date | date}}</td>
+          <td>{{countryWiseCoronaData.case}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="col">
+
+    <div *ngIf="selectedCountryWiseCoronaDataList.length">
+      <google-chart [data]='lineChart'></google-chart>
+
+    </div>
+
+      </div>
+
+
 </div>
 </div>

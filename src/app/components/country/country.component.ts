@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { TotalCoronaCasesInfo } from '../model/totalcorona-casses';
 import { GlobalCoronaServiceService } from 'src/app/service/global-corona-service.service';
 import { DateWiseCoronaConfirmedData } from '../model/datewisecorona-cases';
+import { GoogleChartInterface } from 'ng2-google-charts';
+import { merge } from 'rxjs';
+import {map} from 'rxjs/operators';
 
 @Component({
   selector: 'app-country',
@@ -18,6 +21,9 @@ export class CountryComponent implements OnInit {
     totalActive: 6
   };
 
+  lineChart: GoogleChartInterface = {
+    chartType: 'LineChart'
+  };
   coronaCountryWistData: any = {
     India: {
       totalConfirmed: 10,
@@ -50,9 +56,9 @@ export class CountryComponent implements OnInit {
       totalActive: 50
     }
   };
-
   dateWiseCoronaData;
-  selectedCountryWiseCoronaDataList: DateWiseCoronaConfirmedData[] ;
+
+  selectedCountryWiseCoronaDataList: DateWiseCoronaConfirmedData[] = [];
 
   constructor(private globalCoronaServiceService: GlobalCoronaServiceService ) { }
 
@@ -67,12 +73,45 @@ export class CountryComponent implements OnInit {
       this.dateWiseCoronaData = result;
       }
     );
+
+    merge(
+      this.globalCoronaServiceService.getDateWiseCoronaData().pipe(map(result => {
+        this.dateWiseCoronaData = result;
+        })),
+
+        this.globalCoronaServiceService.getGlobalCoronaData().pipe(map(result => {
+          console.log(result); }
+        ))
+    ).subscribe({
+      complete: () => {
+        this.updateValues('Singapore');
+      }
+    }  );
   }
 
   updateValues(selectedCountry: string): void{
    this.totalCoronaCasesInfo =  this.coronaCountryWistData[selectedCountry];
    this.selectedCountryWiseCoronaDataList =  this.dateWiseCoronaData[selectedCountry];
    this.selectedCountryWiseCoronaDataList =  this.selectedCountryWiseCoronaDataList.reverse();
-   console.log(this.selectedCountryWiseCoronaDataList);
+   const dataTable = [];
+   dataTable.push(['Date', 'Cases']);
+   this.selectedCountryWiseCoronaDataList.forEach(countryWiseData => {
+     dataTable.push([countryWiseData.date, countryWiseData.case]);
+   });
+   this.updateLineChart(dataTable);
+  }
+
+
+  updateLineChart(dataTable){
+
+    this.lineChart = {
+chartType: 'LineChart',
+dataTable,
+options: {height: 500,
+animation: {
+  duration: 1000,
+  easing: 'out'
+}}
+    };
   }
 }
