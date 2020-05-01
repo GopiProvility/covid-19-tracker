@@ -7,6 +7,7 @@ import { AppComponent } from './app.component';
 import { NavBarComponent } from './components/nav-bar/nav-bar.component';
 import { HomeComponent } from './components/home/home.component';
 import { CountryComponent } from './components/country/country.component';
+import {Ng2GoogleChartsModule} from 'ng2-google-charts'
 import { DashboardCardComponent } from './components/dashboard-card/dashboard-card.component';
 
 @NgModule({
@@ -20,7 +21,8 @@ import { DashboardCardComponent } from './components/dashboard-card/dashboard-ca
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    Ng2GoogleChartsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
