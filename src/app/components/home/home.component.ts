@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {GlobalCoronaServiceService} from '../../service/global-corona-service.service';
 import { TotalCoronaCasesInfo } from '../model/totalcorona-casses';
+import { GlobalDataSummary } from '../model/global-data';
 
 @Component({
   selector: 'app-home',
@@ -9,19 +10,26 @@ import { TotalCoronaCasesInfo } from '../model/totalcorona-casses';
 })
 export class HomeComponent implements OnInit {
 
-  totalCoronaCasesInfo:TotalCoronaCasesInfo={
-    totalConfirmed:30,
-    totalRecovered: 40,
-    totalDeaths:50,
-    totalActive:60
-  }
+  totalCoronaCasesInfo: TotalCoronaCasesInfo = {
+    totalConfirmed: 0,
+    totalRecovered: 0,
+    totalDeaths: 0,
+    totalActive: 0
+  };
   constructor(private  globalCoronaServiceService: GlobalCoronaServiceService) {
   }
 
   ngOnInit(): void {
     this.globalCoronaServiceService.getGlobalCoronaData().subscribe({
-      next: (result) => {
-        console.log(result);
+      next: (data: GlobalDataSummary[]) => {
+
+        data.forEach(row => {
+          this.totalCoronaCasesInfo.totalConfirmed += row.confirmed;
+          this.totalCoronaCasesInfo.totalActive += row.active;
+          this.totalCoronaCasesInfo.totalDeaths += row.deaths;
+          this.totalCoronaCasesInfo.totalRecovered += row.recovered;
+        });
+
       }
     });
   }

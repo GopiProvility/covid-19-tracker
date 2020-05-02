@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {map} from 'rxjs/operators';
-import { TotalCoronaCasesInfo } from '../components/model/totalcorona-casses';
 import { DateWiseCoronaConfirmedData } from '../components/model/datewisecorona-cases';
+import { GlobalDataSummary } from '../components/model/global-data';
 
 @Injectable({
   providedIn: 'root'
@@ -17,11 +17,20 @@ export class GlobalCoronaServiceService {
   getGlobalCoronaData() {
     return this.http.get(this.globalCoronaDataUrl, {responseType: 'text'}).pipe(
       map(result => {
+        const data: GlobalDataSummary[] = [];
+
         const rows = result.split('\n');
-        rows.forEach(row => {
-          const cols = row.split(/,(?=\S)/);
-          console.log(cols);
-        });
+
+        const countryCoronaInfoMapper = {};
+
+        rows.splice(0, 1); // to remove the column header value in csv
+
+        this.buildTotalCoronaCasesInfo(rows, data);
+
+        this.buildCountryWiseCoronaInfo(data, countryCoronaInfoMapper);
+
+        return Object.values(countryCoronaInfoMapper) as GlobalDataSummary[];
+
       }));
   }
 
@@ -52,6 +61,38 @@ export class GlobalCoronaServiceService {
 
         return mainData;
       }));
+  }
+
+  private buildTotalCoronaCasesInfo(rows, data: GlobalDataSummary[]) {
+    rows.forEach(row => {
+      const cols = row.split(/,(?=\S)/);
+      data.push({
+        country : cols[3],
+        confirmed : +cols[7],
+        deaths : +cols[8],
+        recovered : +cols[9],
+        active : +cols[10]
+      });
+    });
+  }
+
+  private buildCountryWiseCoronaInfo(data: GlobalDataSummary[], countryCoronaInfoMapper) {
+
+    data.forEach((row: GlobalDataSummary)  => {
+
+        if (row.country === undefined) { return; }
+
+        if (countryCoronaInfoMapper[row.country]) {
+          const temp: GlobalDataSummary = countryCoronaInfoMapper[row.country];
+          temp.confirmed += row.confirmed;
+          temp.active += row.active;
+          temp.recovered += row.recovered;
+          temp.deaths += row.deaths;
+        }
+        else {
+          countryCoronaInfoMapper[row.country] = row;
+        }
+    });
   }
 }
 
