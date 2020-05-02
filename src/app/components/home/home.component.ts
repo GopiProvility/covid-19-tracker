@@ -33,11 +33,11 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.globalCoronaServiceService.getGlobalCoronaData().subscribe({
-      next: (data: GlobalDataSummary[]) => {
+      next: (data) => {
 
-        this.globalData = data;
+        this.globalData = Object.values(data) as GlobalDataSummary[];
 
-        data.forEach(row => {
+        this.globalData.forEach(row => {
           this.totalCoronaCasesInfo.totalConfirmed += row.confirmed;
           this.totalCoronaCasesInfo.totalActive += row.active;
           this.totalCoronaCasesInfo.totalDeaths += row.deaths;
