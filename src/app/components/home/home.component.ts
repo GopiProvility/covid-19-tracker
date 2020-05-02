@@ -2,7 +2,6 @@ import {Component, OnInit} from '@angular/core';
 import {GlobalCoronaServiceService} from '../../service/global-corona-service.service';
 import { TotalCoronaCasesInfo } from '../model/totalcorona-casses';
 import { GlobalDataSummary } from '../model/global-data';
-import { GoogleChartInterface } from 'ng2-google-charts';
 
 @Component({
   selector: 'app-home',
@@ -20,13 +19,13 @@ export class HomeComponent implements OnInit {
 
   globalData: GlobalDataSummary[];
 
-  pieChart: GoogleChartInterface = {
-    chartType: 'PieChart',
-  };
+  // pieChart: GoogleChartInterface = {
+  //   chartType: 'PieChart',
+  // };
 
-  columnChart: GoogleChartInterface = {
-    chartType: 'ColumnChart',
-  };
+  // columnChart: GoogleChartInterface = {
+  //   chartType: 'ColumnChart',
+  // };
 
   constructor(private  globalCoronaServiceService: GlobalCoronaServiceService) {
   }
@@ -67,25 +66,25 @@ export class HomeComponent implements OnInit {
   }
 
   private buildPieChart(dataTable) {
-    this.pieChart = {
-      chartType: 'PieChart',
-      // tslint:disable-next-line: object-literal-shorthand
-      dataTable: dataTable,
-      options: {
-        height : 600
-      },
-    };
+    // this.pieChart = {
+    //   chartType: 'PieChart',
+    //   // tslint:disable-next-line: object-literal-shorthand
+    //   dataTable: dataTable,
+    //   options: {
+    //     height : 600
+    //   },
+    // };
   }
 
   private buildColumnChart(dataTable) {
-    this.columnChart = {
-      chartType: 'ColumnChart',
-      // tslint:disable-next-line: object-literal-shorthand
-      dataTable: dataTable,
-      options: {
-        height : 600
-      },
-    };
+    // this.columnChart = {
+    //   chartType: 'ColumnChart',
+    //   // tslint:disable-next-line: object-literal-shorthand
+    //   dataTable: dataTable,
+    //   options: {
+    //     height : 600
+    //   },
+    // };
   }
 
 }
