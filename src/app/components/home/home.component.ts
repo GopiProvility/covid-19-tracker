@@ -56,7 +56,7 @@ export class HomeComponent implements OnInit {
   }
 
   private initCharts(caseType: string) {
-
+    this.dataTable = [];
     this.globalData.forEach(cs => {
       const value = this.getCaseTypeValue(caseType, cs);
       this.dataTable.push([
@@ -79,7 +79,7 @@ export class HomeComponent implements OnInit {
         }
         break;
       case 'r':
-        if (row.recovered > 100) {
+        if (row.recovered > 500) {
           value = row.recovered;
         }
         break;
