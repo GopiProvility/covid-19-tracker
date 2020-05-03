@@ -10,6 +10,8 @@ import { CountryComponent } from './components/country/country.component';
 import { GoogleChartsModule } from 'angular-google-charts';
 import { DashboardCardComponent } from './components/dashboard-card/dashboard-card.component';
 import { GooglechartComponent } from './components/chart/googlechart/googlechart.component';
+import { TableComponent } from './components/table/table.component';
+import { PagerService } from './service/pager.service';
 
 @NgModule({
   declarations: [
@@ -18,7 +20,8 @@ import { GooglechartComponent } from './components/chart/googlechart/googlechart
     HomeComponent,
     CountryComponent,
     DashboardCardComponent,
-    GooglechartComponent
+    GooglechartComponent,
+    TableComponent,
   ],
   imports: [
     BrowserModule,
@@ -26,7 +29,7 @@ import { GooglechartComponent } from './components/chart/googlechart/googlechart
     HttpClientModule,
     GoogleChartsModule
   ],
-  providers: [],
+  providers: [PagerService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

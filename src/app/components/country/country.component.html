@@ -20,7 +20,7 @@
 
 
   <div class="col">
-    <table class="table">
+    <!-- <table class="table">
       <thead>
         <tr>
           <th>Sno.</th>
@@ -36,18 +36,18 @@
           <td>{{countryWiseCoronaData.case}}</td>
         </tr>
       </tbody>
-    </table>
+    </table> -->
+
+    <app-table *ngIf="selectedCountryWiseCoronaDataList.length"
+    [selectedCountryWiseCoronaDataList]="selectedCountryWiseCoronaDataList">
+
+    </app-table>
   </div>
 
   <div class="col">
 
     <div *ngIf="chartDataTable.length">
-      <!-- <google-chart [data]='lineChart'></google-chart> -->
-      <!-- <google-chart [type]='chart.chartType'
-       style="width: 100%;"
-       [options]='chart.options'
-       [height]='chart.height'
-       [data]='chartDataTable'></google-chart> -->
+
        <app-googlechart [chartType]='chartType'
         [chartDataTable]='chartDataTable' ></app-googlechart>
 
