@@ -1,8 +1,9 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {map} from 'rxjs/operators';
-import { DateWiseCoronaConfirmedData } from '../components/model/datewisecorona-cases';
+import { CountryWiseCoronaConfirmedData } from '../components/model/datewisecorona-cases';
 import { GlobalDataSummary } from '../components/model/global-data';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -10,6 +11,10 @@ import { GlobalDataSummary } from '../components/model/global-data';
 export class GlobalCoronaServiceService {
   private globalCoronaDataUrl = 'https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_daily_reports/05-02-2020.csv';
   private dateWiseCoronaDataUrl = 'https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv';
+
+  private countryWiseCoronaConfirmedSubject =
+   new BehaviorSubject<CountryWiseCoronaConfirmedData[]>([]);
+   public countyWiseCoronaConfirmedDataList$ = this.countryWiseCoronaConfirmedSubject.asObservable();
 
   constructor(private http: HttpClient) {
   }
@@ -39,7 +44,7 @@ export class GlobalCoronaServiceService {
     return this.http.get(this.dateWiseCoronaDataUrl, {responseType: 'text'}).pipe(
       map(result => {
         const rows = result.split('\n');
-        const mainData: { [x: string]: DateWiseCoronaConfirmedData[]; } = {};
+        const mainData: { [x: string]: CountryWiseCoronaConfirmedData[]; } = {};
         const header: string = rows[0];
         const dates = header.split(/,(?=\S)/);
         this.buildDateWiseCoronaData(mainData, dates, rows);
@@ -48,7 +53,11 @@ export class GlobalCoronaServiceService {
       }));
   }
 
- private buildDateWiseCoronaData(mainData: { [x: string]: DateWiseCoronaConfirmedData[]; },
+   setCountryWiseCoronaData(countryWiseCoronaConfirmedDataList: CountryWiseCoronaConfirmedData[]){
+    this.countryWiseCoronaConfirmedSubject.next(countryWiseCoronaConfirmedDataList);
+   }
+
+ private buildDateWiseCoronaData(mainData: { [x: string]: CountryWiseCoronaConfirmedData[]; },
                                  dates: string[], rows: any[]){
     dates.splice(0, 4);
     rows.splice(0, 1);
@@ -58,7 +67,7 @@ export class GlobalCoronaServiceService {
       cols.splice(0, 4);
       mainData[con] = [];
       cols.forEach((value, index) => {
-        const dw: DateWiseCoronaConfirmedData = {
+        const dw: CountryWiseCoronaConfirmedData = {
           case: +value,
           country: con,
           actualDate: new Date(Date.parse(dates[index])),

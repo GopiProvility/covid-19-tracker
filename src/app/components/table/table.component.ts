@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { PagerService } from 'src/app/service/pager.service';
-import { DateWiseCoronaConfirmedData } from '../model/datewisecorona-cases';
+import { CountryWiseCoronaConfirmedData } from '../model/datewisecorona-cases';
+import { GlobalCoronaServiceService } from 'src/app/service/global-corona-service.service';
 
 @Component({
   selector: 'app-table',
@@ -10,12 +11,12 @@ import { DateWiseCoronaConfirmedData } from '../model/datewisecorona-cases';
 export class TableComponent implements OnInit {
 
 
-  constructor(private pagerService: PagerService) { }
+  constructor(private pagerService: PagerService ,
+              private globalCoronaServiceService: GlobalCoronaServiceService ) { }
 
    // array of all items to be paged
    // tslint:disable-next-line:no-input-rename
-   @Input('selectedCountryWiseCoronaDataList')
-   selectedCountryWiseCoronaDataList: DateWiseCoronaConfirmedData[];
+   selectedCountryWiseCoronaDataList: CountryWiseCoronaConfirmedData[];
 
 
 
@@ -26,7 +27,11 @@ export class TableComponent implements OnInit {
     pagedItems: any[];
 
     ngOnInit() {
-      this.setPage(1);
+      this.globalCoronaServiceService.countyWiseCoronaConfirmedDataList$.subscribe((countryWiseCoronaConfirmedDataList) => {
+       this.selectedCountryWiseCoronaDataList = countryWiseCoronaConfirmedDataList;
+       this.setPage(1);
+      });
+
     }
 
     setPage(page: number) {

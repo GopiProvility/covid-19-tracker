@@ -1,4 +1,4 @@
-export interface DateWiseCoronaConfirmedData{
+export interface CountryWiseCoronaConfirmedData{
   case: number;
   country: string;
   actualDate: Date;
