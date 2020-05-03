@@ -29,7 +29,7 @@ export class GlobalCoronaServiceService {
 
         this.buildCountryWiseCoronaInfo(data, countryCoronaInfoMapper);
 
-        return Object.values(countryCoronaInfoMapper) as GlobalDataSummary[];
+        return countryCoronaInfoMapper;
 
       }));
   }
@@ -39,28 +39,34 @@ export class GlobalCoronaServiceService {
     return this.http.get(this.dateWiseCoronaDataUrl, {responseType: 'text'}).pipe(
       map(result => {
         const rows = result.split('\n');
-        const mainData = {};
+        const mainData: { [x: string]: DateWiseCoronaConfirmedData[]; } = {};
         const header: string = rows[0];
         const dates = header.split(/,(?=\S)/);
-        dates.splice(0, 4);
-        rows.splice(0, 1);
-        rows.forEach(row => {
-          const cols = row.split(/,(?=\S)/);
-          const con = cols[1];
-          cols.splice(0, 4);
-          mainData[con] = [];
-          cols.forEach((value, index) => {
-            const dw: DateWiseCoronaConfirmedData = {
-              case: +value,
-              country: con,
-              date: new Date(Date.parse(dates[index]))
-            };
-            mainData[con].push(dw);
-          });
-        });
+        this.buildDateWiseCoronaData(mainData, dates, rows);
 
         return mainData;
       }));
+  }
+
+ private buildDateWiseCoronaData(mainData: { [x: string]: DateWiseCoronaConfirmedData[]; },
+                                 dates: string[], rows: any[]){
+    dates.splice(0, 4);
+    rows.splice(0, 1);
+    rows.forEach(row => {
+      const cols = row.split(/,(?=\S)/);
+      const con = cols[1];
+      cols.splice(0, 4);
+      mainData[con] = [];
+      cols.forEach((value, index) => {
+        const dw: DateWiseCoronaConfirmedData = {
+          case: +value,
+          country: con,
+          actualDate: new Date(Date.parse(dates[index])),
+          date: dates[index]
+        };
+        mainData[con].push(dw);
+      });
+    });
   }
 
   private buildTotalCoronaCasesInfo(rows, data: GlobalDataSummary[]) {
@@ -76,7 +82,8 @@ export class GlobalCoronaServiceService {
     });
   }
 
-  private buildCountryWiseCoronaInfo(data: GlobalDataSummary[], countryCoronaInfoMapper) {
+  private buildCountryWiseCoronaInfo(data: GlobalDataSummary[],
+                                     countryCoronaInfoMapper: { [x: string]: GlobalDataSummary; }) {
 
     data.forEach((row: GlobalDataSummary)  => {
 

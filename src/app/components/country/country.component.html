@@ -32,7 +32,7 @@
       <tbody>
         <tr *ngFor="let countryWiseCoronaData of selectedCountryWiseCoronaDataList; index as i">
           <td>{{i +1}}</td>
-          <td>{{countryWiseCoronaData.date | date}}</td>
+          <td>{{countryWiseCoronaData.date}}</td>
           <td>{{countryWiseCoronaData.case}}</td>
         </tr>
       </tbody>
@@ -41,8 +41,15 @@
 
   <div class="col">
 
-    <div *ngIf="selectedCountryWiseCoronaDataList.length">
-      <google-chart [data]='lineChart'></google-chart>
+    <div *ngIf="chartDataTable.length">
+      <!-- <google-chart [data]='lineChart'></google-chart> -->
+      <!-- <google-chart [type]='chart.chartType'
+       style="width: 100%;"
+       [options]='chart.options'
+       [height]='chart.height'
+       [data]='chartDataTable'></google-chart> -->
+       <app-googlechart [chartType]='chartType'
+        [chartDataTable]='chartDataTable' ></app-googlechart>
 
     </div>
 

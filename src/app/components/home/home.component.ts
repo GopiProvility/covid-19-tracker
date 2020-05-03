@@ -2,7 +2,6 @@ import {Component, OnInit} from '@angular/core';
 import {GlobalCoronaServiceService} from '../../service/global-corona-service.service';
 import { TotalCoronaCasesInfo } from '../model/totalcorona-casses';
 import { GlobalDataSummary } from '../model/global-data';
-import { GoogleChartInterface } from 'ng2-google-charts';
 
 @Component({
   selector: 'app-home',
@@ -20,11 +19,11 @@ export class HomeComponent implements OnInit {
 
   globalData: GlobalDataSummary[];
 
-  pieChart: GoogleChartInterface = {
+  pieChart = {
     chartType: 'PieChart',
   };
 
-  columnChart: GoogleChartInterface = {
+  columnChart = {
     chartType: 'ColumnChart',
   };
 
@@ -33,11 +32,11 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.globalCoronaServiceService.getGlobalCoronaData().subscribe({
-      next: (data: GlobalDataSummary[]) => {
+      next: (data) => {
 
-        this.globalData = data;
+        this.globalData = Object.values(data) as GlobalDataSummary[];
 
-        data.forEach(row => {
+        this.globalData.forEach(row => {
           this.totalCoronaCasesInfo.totalConfirmed += row.confirmed;
           this.totalCoronaCasesInfo.totalActive += row.active;
           this.totalCoronaCasesInfo.totalDeaths += row.deaths;

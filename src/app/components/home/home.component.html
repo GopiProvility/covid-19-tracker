@@ -46,9 +46,15 @@
 
 <div class="row">
   <div class="col">
-    <google-chart [data]="columnChart"></google-chart>
+
+    <app-googlechart [chartType]='columnChart.chartType'
+    [chartDataTable]='columnChart' ></app-googlechart>
+
   </div>
   <div class="col">
-    <google-chart [data]="pieChart"></google-chart>
+
+    <app-googlechart [chartType]='pieChart.chartType'
+    [chartDataTable]='pieChart' ></app-googlechart>
+    
   </div>
 </div>
