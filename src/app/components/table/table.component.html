@@ -7,7 +7,7 @@
           <table class="table">
             <thead>
               <tr>
-                <th>Sno.</th>
+                <th>S.No</th>
                 <th>Date</th>
                 <th>Cases</th>
               </tr>
@@ -24,20 +24,21 @@
 
           <!-- pager -->
           <ul *ngIf="pager.pages && pager.pages.length" class="pagination">
-              <li [ngClass]="{disabled:pager.currentPage === 1}">
-                  <a (click)="setPage(1)">First</a>
+              <li class="page-item"
+              [ngClass]="{disabled:pager.currentPage === 1}">
+                  <a class="page-link" (click)="setPage(1)">First</a>
               </li>
-              <li [ngClass]="{disabled:pager.currentPage === 1}">
-                  <a (click)="setPage(pager.currentPage - 1)">Previous</a>
+              <li class="page-item" [ngClass]="{disabled:pager.currentPage === 1}">
+                  <a class="page-link" (click)="setPage(pager.currentPage - 1)">Previous</a>
               </li>
-              <li *ngFor="let page of pager.pages" [ngClass]="{active:pager.currentPage === page}">
-                  <a (click)="setPage(page)">{{page}}</a>
+              <li *ngFor="let page of pager.pages"  class="page-item" [ngClass]="{active:pager.currentPage === page}">
+                  <a class="page-link" (click)="setPage(page)">{{page}}</a>
               </li>
-              <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
-                  <a (click)="setPage(pager.currentPage + 1)">Next</a>
+              <li class="page-item" [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+                  <a class="page-link" (click)="setPage(pager.currentPage + 1)">Next</a>
               </li>
-              <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
-                  <a (click)="setPage(pager.totalPages)">Last</a>
+              <li class="page-item" [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+                  <a class="page-link" (click)="setPage(pager.totalPages)">Last</a>
               </li>
           </ul>
       </div>
