@@ -6,8 +6,9 @@
 <div class="mx-auto">
   <div class="form-group col-lg-5 mx-auto">
     <label for="country">Select Country</label>
-    <select name="" id="country" class="form-control" #input
-    (change)="updateValues(input.value)">
+    <select name="" id="country" class="form-control"
+    [(ngModel)]="selectedCountry"
+    (change)="updateValues()">
       <option value="">Select Country</option>
       <option value="{{con}}" *ngFor="let con of countries">{{con}} </option>
     </select>
@@ -19,28 +20,9 @@
 <div class="row">
 
 
-  <div class="col">
-    <!-- <table class="table">
-      <thead>
-        <tr>
-          <th>Sno.</th>
-          <th>Date</th>
-          <th>Cases</th>
-        </tr>
-      </thead>
+  <div class="col" *ngIf="selectedCountryWiseCoronaDataList.length">
 
-      <tbody>
-        <tr *ngFor="let countryWiseCoronaData of selectedCountryWiseCoronaDataList; index as i">
-          <td>{{i +1}}</td>
-          <td>{{countryWiseCoronaData.date}}</td>
-          <td>{{countryWiseCoronaData.case}}</td>
-        </tr>
-      </tbody>
-    </table> -->
-
-    <app-table *ngIf="selectedCountryWiseCoronaDataList.length"
-    [selectedCountryWiseCoronaDataList]="selectedCountryWiseCoronaDataList">
-
+    <app-table [selectedCountryWiseCoronaDataList]="selectedCountryWiseCoronaDataList">
     </app-table>
   </div>
 

@@ -15,27 +15,19 @@ import { GlobalDataSummary } from '../model/global-data';
 export class CountryComponent implements OnInit {
 
   countries: string[] ;
+  selectedCountry: string = 'India';
+
   totalCoronaCasesInfo: TotalCoronaCasesInfo = {
-    totalConfirmed: 3,
-    totalRecovered: 4,
-    totalDeaths: 5,
-    totalActive: 6
+    totalConfirmed: 0,
+    totalRecovered: 0,
+    totalDeaths: 0,
+    totalActive: 0
   };
 
-//  chart = {
-//   chartType : 'LineChart' ,
-//   height: 500,
-//   options: {
-//     animation: {
-//       duration: 1000,
-//       easing: 'out',
-//     },
-//     is3D: true
-//   }
-//  };
-  chartType = 'LineChart';
-  chartDataTable = [];
-  countryCoronaInfoMapper: { [x: string]: GlobalDataSummary; };
+   chartType:string = 'LineChart';
+   chartDataTable = [];
+
+   countryCoronaInfoMapper: { [x: string]: GlobalDataSummary; };
    dateWiseCoronaData: { [x: string]: DateWiseCoronaConfirmedData[]; } = {};
 
   selectedCountryWiseCoronaDataList = [];
@@ -55,15 +47,16 @@ export class CountryComponent implements OnInit {
         ))
     ).subscribe({
       complete: () => {
-        this.updateValues('India');
+        this.updateValues();
       }
     }  );
   }
 
-  updateValues(selectedCountry: string): void{
+  updateValues(): void{
+    this.selectedCountryWiseCoronaDataList = [];
     // build total country corona info
-    this.buildTotalCountryCoronaInfo(this.countryCoronaInfoMapper[selectedCountry]);
-    this.selectedCountryWiseCoronaDataList =  this.dateWiseCoronaData[selectedCountry];
+    this.buildTotalCountryCoronaInfo(this.countryCoronaInfoMapper[this.selectedCountry]);
+    this.selectedCountryWiseCoronaDataList =  this.dateWiseCoronaData[this.selectedCountry];
     this.selectedCountryWiseCoronaDataList =  this.selectedCountryWiseCoronaDataList.reverse();
     // build country date wise corona info for line chart
     this.updateLineChartDataTable();
