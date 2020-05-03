@@ -27,6 +27,8 @@ export class HomeComponent implements OnInit {
     chartType: 'ColumnChart',
   };
 
+  dataTable: any = [];
+
   constructor(private  globalCoronaServiceService: GlobalCoronaServiceService) {
   }
 
@@ -54,42 +56,13 @@ export class HomeComponent implements OnInit {
   }
 
   private initCharts(caseType: string) {
-    const dataTable = [];
-
-    dataTable.push(['Country', 'Cases']);
 
     this.globalData.forEach(cs => {
       const value = this.getCaseTypeValue(caseType, cs);
-      dataTable.push([
+      this.dataTable.push([
         cs.country , value
       ]);
     });
-
-    this.buildPieChart(dataTable);
-
-    this.buildColumnChart(dataTable);
-  }
-
-  private buildPieChart(dataTable) {
-    this.pieChart = {
-      chartType: 'PieChart',
-      // tslint:disable-next-line: object-literal-shorthand
-      dataTable: dataTable,
-      options: {
-        height : 600
-      },
-    };
-  }
-
-  private buildColumnChart(dataTable) {
-    this.columnChart = {
-      chartType: 'ColumnChart',
-      // tslint:disable-next-line: object-literal-shorthand
-      dataTable: dataTable,
-      options: {
-        height : 600
-      },
-    };
   }
 
   private getCaseTypeValue(caseType: string, row: GlobalDataSummary) {
