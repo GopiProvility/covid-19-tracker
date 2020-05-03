@@ -44,20 +44,25 @@ export class HomeComponent implements OnInit {
           this.totalCoronaCasesInfo.totalRecovered += row.recovered;
         });
 
-        this.initCharts();
+        this.initCharts('c');
 
       }
     });
   }
 
-  private initCharts() {
+  updateChart(caseType: string){
+    this.initCharts(caseType);
+  }
+
+  private initCharts(caseType: string) {
     const dataTable = [];
 
     dataTable.push(['Country', 'Cases']);
 
     this.globalData.forEach(cs => {
+      const value = this.getCaseTypeValue(caseType, cs);
       dataTable.push([
-        cs.country , cs.confirmed
+        cs.country , value
       ]);
     });
 
@@ -86,6 +91,33 @@ export class HomeComponent implements OnInit {
         height : 600
       },
     };
+  }
+
+  private getCaseTypeValue(caseType: string, row: GlobalDataSummary) {
+    let value = 0;
+    switch (caseType) {
+      case 'a':
+        if (row.active > 200) {
+          value = row.active;
+        }
+        break;
+      case 'd':
+        if (row.deaths > 500) {
+          value = row.deaths;
+        }
+        break;
+      case 'r':
+        if (row.recovered > 100) {
+          value = row.recovered;
+        }
+        break;
+      case 'c':
+        if (row.confirmed > 2000) {
+          value = row.confirmed;
+        }
+        break;
+    }
+    return value;
   }
 
 }
