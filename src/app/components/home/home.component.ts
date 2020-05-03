@@ -19,13 +19,15 @@ export class HomeComponent implements OnInit {
 
   globalData: GlobalDataSummary[];
 
-  // pieChart: GoogleChartInterface = {
-  //   chartType: 'PieChart',
-  // };
+  pieChart = {
+    chartType: 'PieChart',
+  };
 
-  // columnChart: GoogleChartInterface = {
-  //   chartType: 'ColumnChart',
-  // };
+  columnChart = {
+    chartType: 'ColumnChart',
+  };
+
+  dataTable: any = [];
 
   constructor(private  globalCoronaServiceService: GlobalCoronaServiceService) {
   }
@@ -43,48 +45,51 @@ export class HomeComponent implements OnInit {
           this.totalCoronaCasesInfo.totalRecovered += row.recovered;
         });
 
-        this.initCharts();
+        this.initCharts('c');
 
       }
     });
   }
 
-  private initCharts() {
-    const dataTable = [];
+  updateChart(caseType: string){
+    this.initCharts(caseType);
+  }
 
-    dataTable.push(['Country', 'Cases']);
-
+  private initCharts(caseType: string) {
+    this.dataTable = [];
     this.globalData.forEach(cs => {
-      dataTable.push([
-        cs.country , cs.confirmed
+      const value = this.getCaseTypeValue(caseType, cs);
+      this.dataTable.push([
+        cs.country , value
       ]);
     });
-
-    this.buildPieChart(dataTable);
-
-    this.buildColumnChart(dataTable);
   }
 
-  private buildPieChart(dataTable) {
-    // this.pieChart = {
-    //   chartType: 'PieChart',
-    //   // tslint:disable-next-line: object-literal-shorthand
-    //   dataTable: dataTable,
-    //   options: {
-    //     height : 600
-    //   },
-    // };
-  }
-
-  private buildColumnChart(dataTable) {
-    // this.columnChart = {
-    //   chartType: 'ColumnChart',
-    //   // tslint:disable-next-line: object-literal-shorthand
-    //   dataTable: dataTable,
-    //   options: {
-    //     height : 600
-    //   },
-    // };
+  private getCaseTypeValue(caseType: string, row: GlobalDataSummary) {
+    let value = 0;
+    switch (caseType) {
+      case 'a':
+        if (row.active > 200) {
+          value = row.active;
+        }
+        break;
+      case 'd':
+        if (row.deaths > 500) {
+          value = row.deaths;
+        }
+        break;
+      case 'r':
+        if (row.recovered > 500) {
+          value = row.recovered;
+        }
+        break;
+      case 'c':
+        if (row.confirmed > 2000) {
+          value = row.confirmed;
+        }
+        break;
+    }
+    return value;
   }
 
 }

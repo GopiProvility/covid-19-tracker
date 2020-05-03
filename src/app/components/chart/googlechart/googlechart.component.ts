@@ -20,7 +20,7 @@ export class GooglechartComponent implements OnInit {
 
   @Input('chartType')
   // tslint:disable-next-line: whitespace
-  chartType:string ;
+  chartType: string ;
   // tslint:disable-next-line: no-input-rename
   @Input('chartDataTable')
   chartDataTable: any;
