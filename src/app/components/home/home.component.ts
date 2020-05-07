@@ -29,12 +29,14 @@ export class HomeComponent implements OnInit {
 
   dataTable: any = [];
 
+  errorMessage: string;
+
   constructor(private  globalCoronaServiceService: GlobalCoronaServiceService) {
   }
 
   ngOnInit(): void {
-    this.globalCoronaServiceService.getGlobalCoronaData().subscribe({
-      next: (data) => {
+    this.globalCoronaServiceService.getGlobalCoronaData().subscribe(
+       (data) => {
 
         this.globalData = Object.values(data) as GlobalDataSummary[];
 
@@ -46,9 +48,11 @@ export class HomeComponent implements OnInit {
         });
 
         this.initCharts('c');
-
+      },
+      (error) => {
+        this.errorMessage = error;
       }
-    });
+    );
   }
 
   updateChart(caseType: string){
@@ -91,5 +95,7 @@ export class HomeComponent implements OnInit {
     }
     return value;
   }
+
+
 
 }

@@ -3,13 +3,19 @@ import {HttpClient} from '@angular/common/http';
 import {map} from 'rxjs/operators';
 import { CountryWiseCoronaConfirmedData } from '../components/model/datewisecorona-cases';
 import { GlobalDataSummary } from '../components/model/global-data';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, throwError} from 'rxjs';
+import { catchError } from 'rxjs/operators';
+import * as moment from 'moment';
+import { DateService } from './date.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class GlobalCoronaServiceService {
-  private globalCoronaDataUrl = 'https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_daily_reports/05-02-2020.csv';
+private yesterDay =  DateService.getYesterday();
+
+  private globalCoronaDataUrl =
+  `https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_daily_reports/${this.yesterDay}.csv`;
   private dateWiseCoronaDataUrl = 'https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv';
 
   private countryWiseCoronaConfirmedSubject =
@@ -36,7 +42,30 @@ export class GlobalCoronaServiceService {
 
         return countryCoronaInfoMapper;
 
-      }));
+      }), catchError(this.handleError));
+  }
+  handleError(error) {
+
+    let errorMessage = '';
+
+    if (error.error instanceof ErrorEvent) {
+
+      // client-side error
+
+      errorMessage = `Error: ${error.error.message}`;
+
+    } else {
+
+      // server-side error
+
+      errorMessage = `Error Code: ${error.status}\nMessage:
+       ${'There is a problem with service. we are notified & working on it.Please try again later'}`;
+
+    }
+
+
+    return throwError(errorMessage);
+
   }
 
 
@@ -110,5 +139,7 @@ export class GlobalCoronaServiceService {
         }
     });
   }
+
+
 }
 

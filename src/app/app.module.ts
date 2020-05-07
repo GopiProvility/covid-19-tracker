@@ -13,6 +13,7 @@ import { DashboardCardComponent } from './components/dashboard-card/dashboard-ca
 import { GooglechartComponent } from './components/chart/googlechart/googlechart.component';
 import { TableComponent } from './components/table/table.component';
 import { PagerService } from './service/pager.service';
+import { DateService } from './service/date.service';
 
 @NgModule({
   declarations: [

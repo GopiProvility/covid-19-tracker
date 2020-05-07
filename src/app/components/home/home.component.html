@@ -2,9 +2,17 @@
   <h1 class="display-4">Corona Covid-19 Tracker</h1>
   <hr>
 
+  <div class="row">
+    <div class="alert alert-info text-center col-md-8 mx-auto" *ngIf="errorMessage">
+      <strong>Info!</strong>{{errorMessage}}.
+    </div>
+  </div>
+
+
   <app-dashboard-card [totalCoronaCasesInfo]='totalCoronaCasesInfo'> </app-dashboard-card>
 
 </div>
+
 
 <div class="ui form">
   <div class="inline fields">
